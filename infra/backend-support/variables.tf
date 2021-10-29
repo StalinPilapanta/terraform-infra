@@ -1,3 +1,10 @@
+#provider
+
+variable "region" {
+  
+}
+
+# bucket
 variable "bucket" {
   
 }

@@ -1,3 +1,7 @@
+
+# provider
+region = "eu-west-1"
+
 #aws_s3_bucket
 bucket = "news4321-terraform-infra"
 acl = "private"
