@@ -1,7 +1,7 @@
 
 # provider
 variable "region" {
-  
+  default = "eu-west-1"
 }
 
 variable "instance_type" {
@@ -14,9 +14,10 @@ variable "prefix" {
   default = "news4321"
 }
 
-
+/*
 # variables bucket s3
 variable "bucket" {
   
 }
 
+*/
