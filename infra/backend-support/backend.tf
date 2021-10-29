@@ -1,7 +1,7 @@
 # This file creates S3 bucket to hold terraform states
 # and DynamoDB table to keep the state locks.
 resource "aws_s3_bucket" "terraform_infra" {
-  bucket = "news4321-terraform-infra"
+  bucket = var.bucket
   acl    = "private"
   force_destroy = true
 
