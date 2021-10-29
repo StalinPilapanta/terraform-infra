@@ -1,0 +1,63 @@
+version: 2
+jobs:
+
+  validate:
+    machine:
+      image: circleci/classic:201710-01    # pins image to specific version
+
+    working_directory: ~/repo
+
+    steps:
+      - run:
+          name: Install dojo
+          command: |
+            DOJO_VERSION=0.6.2
+            wget -O dojo https://github.com/kudulab/dojo/releases/download/${DOJO_VERSION}/dojo_linux_amd64
+            chmod +x dojo
+            sudo mv dojo /usr/local/bin
+
+      - checkout
+
+      - run:
+          name: Create second checkout
+          command: |
+            shopt -s extglob
+            mkdir -p second-infra
+            cp -r !(second-infra) second-infra
+
+      - run:
+          name: Build full stack 1
+          command: |
+            export CODE_PREFIX=user1-$(date | md5sum | cut -c -14)
+            eval $(./recops.sh setup_user)
+            make deploy_interview
+
+      - run:
+          name: Build full stack 2
+          command: |
+            export CODE_PREFIX=user2-$(date | md5sum | cut -c -14)
+            cd second-infra
+            eval $(./recops.sh setup_user)
+            make deploy_interview
+
+      - run:
+          name: Destroy full stack 1
+          command: |
+            make destroy_interview
+          when: always
+
+      - run:
+          name: Destroy full stack 2
+          command: |
+            cd second-infra
+            make destroy_interview
+          when: always
+
+
+workflows:
+  version: 2
+
+  # Ensures that code is in working state - it can be deployed and destroyed
+  infra-hiring-validate:
+    jobs:
+      - validate
