@@ -1,3 +1,9 @@
+
+# provider
+variable "region" {
+  
+}
+
 variable "instance_type" {
   default = "t3.nano"
 }
@@ -7,3 +13,10 @@ variable "docker_image_tag" {
 variable "prefix" {
   default = "news4321"
 }
+
+
+# variables bucket s3
+variable "bucket" {
+  
+}
+
