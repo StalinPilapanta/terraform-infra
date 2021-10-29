@@ -19,17 +19,17 @@ resource "aws_security_group" "ssh_access" {
   name        = "${var.prefix}-ssh_access"
   description = "SSH access group"
 
-  ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+  dynamic "ingress"{
+    for_each = var.ingress_rules
+    content {
+      from_port = ingress.value.from_port
+      to_port = ingress.value.to_port
+      protocol = ingress.value.protocol
+      cidr_blocks = ingress.value.cidr_blocks
+    }
   }
 
-  tags = {
-    Name = "Allow HTTP"
-    createdBy = "infra-${var.prefix}/news"
-  }
+  tags = var.tags_sg
 }
 
 resource "aws_key_pair" "ssh_key" {

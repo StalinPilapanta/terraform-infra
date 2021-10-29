@@ -14,6 +14,16 @@ variable "prefix" {
   default = "news4321"
 }
 
+
+# sg
+variable "tags_sg" {
+  
+}
+
+variable "ingress_rules" {
+  
+}
+
 /*
 # variables bucket s3
 variable "bucket" {
